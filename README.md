@@ -27,8 +27,22 @@ To create a distributed Solr index.
   * security.json
   * clusterprops.json
   * solr.xml
+  
   It is possible to use any available tool to upload these file to zookeeper. 
   The recommended way is to use Solr's zkcli.sh to upload Solr configuration files. This script offers the possibility to upload a whole config directory at once to zookeeper. The script is available inside a running docker image under /usr/local/apache-solr/current/server/scripts/cloud-scripts. 
+  The following commands upload a sample configuration from the Solr distribution and solr.xml (must be in zookeeper chroot) to zookeeper
+  ```bash
+./zkcli.sh \
+  -zkhost 192.168.88.219:2181/solr \
+  -cmd upconfig \
+  -confdir ../../solr/configsets/basic_configs/conf/ \
+  -confname basic_config
+```
+  ```bash
+./zkcli.sh \
+  -zkhost 192.168.88.219:2181/solr \
+  -cmd putfile /solr.xml ../../solr.xml 
+```
   see: https://cwiki.apache.org/confluence/display/solr/Using+ZooKeeper+to+Manage+Configuration+Files
 * Start Solr Cloud
 * Use Solr's HTTP API to create a the distributed index
