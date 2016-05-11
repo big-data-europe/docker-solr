@@ -43,8 +43,30 @@ To create a distributed Solr index.
   -zkhost 192.168.88.219:2181/solr \
   -cmd putfile /solr.xml ../../solr.xml 
 ```
-  see: https://cwiki.apache.org/confluence/display/solr/Using+ZooKeeper+to+Manage+Configuration+Files
+  see: https://cwiki.apache.org/confluence/display/solr/Using+ZooKeeper+to+Manage+Configuration+Files for more information on setting up Solr's configuration in zookeeper.
+  
 * Start Solr Cloud
+  
+  If the above required config files are present in a zookeeper node it is possible to start Solr in cloud mode.
+  Use the following command to startup Solr in cloud mode. Note that it is recommended to use a mapped directory
+  as Solr home (this will ensure that indexes survive a docker image restart). For this guide it is assumed that
+  /var/lib/bde/solr will act as Solr home and that said directory is mapped to the host where the docker image runs.
+  In case it doesn't already exist, the directory can be created with
+  ```bash
+mkdir -p /var/lib/solr
+```
+  Solr Cloud is started with the following command. Notes: -f = run in foreground, -cloud = run in cloud mode, -s = use the specified directory as Solr home, -p = the port Solr will be available trough, -z = the zookeeper path with chroot
+  ```bash
+cd /usr/local/apache-solr/current && \
+.bin/solr start \
+  -f \
+  -cloud \
+  -s /var/lib/solr \
+  -p 8983 \
+  -z 192.168.88.219:2181,192.168.88.220:2181,192.168.88.221:2181/solr
+```
+  
+
 * Use Solr's HTTP API to create a the distributed index
 
 To start a Kafka Server inside this Docker image
