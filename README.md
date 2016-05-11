@@ -23,7 +23,12 @@ docker build -t bde2020/solr .
 ```
 To create a distributed Solr index.
 * Upload Solr configuration to zookeeper
-  It is highly recommended to use Solr's zkcli.sh to upload Solr configuration files, the script will create the appropriate directory structure in zookeeper. The script is available inside a running docker image under /usr/local/apache-solr/current/server/scripts/cloud-scripts. 
+  To bootstrap the Solr configuration inside zookeeper the following files are required
+  * security.json
+  * clusterprops.json
+  * solr.xml
+  It is possible to use any available tool to upload these file to zookeeper. 
+  The recommended way is to use Solr's zkcli.sh to upload Solr configuration files. This script offers the possibility to upload a whole config directory at once to zookeeper. The script is available inside a running docker image under /usr/local/apache-solr/current/server/scripts/cloud-scripts. 
   see: https://cwiki.apache.org/confluence/display/solr/Using+ZooKeeper+to+Manage+Configuration+Files
 * Start Solr Cloud
 * Use Solr's HTTP API to create a the distributed index
