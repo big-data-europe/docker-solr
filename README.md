@@ -65,9 +65,13 @@ cd /usr/local/apache-solr/current && \
   -p 8983 \
   -z 192.168.88.219:2181,192.168.88.220:2181,192.168.88.221:2181/solr
 ```
-  
 
 * Use Solr's HTTP API to create a the distributed index
+
+  To create a distributed (sharded) index it is now possible to use Solr's HTTP API.
+  ```bash
+  http://bigdata-one.example.com:8983/solr/admin/collections?action=CREATE&name=SampleCollection&numShards=3&replicationFactor=1&collection.configName=basic_config
+```
 
 To start a Kafka Server inside this Docker image
 * update at least zookeeper.connect in /usr/local/apache-kafka/current/config/server.properties to point to your zookeeper installation. a chroot can be used and will be created upon startup, e.g. zookeeper.connect=192.168.88.219:2181,192.168.88.220:2181/kafka
